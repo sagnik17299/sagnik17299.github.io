@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Notes &amp; Work</title>
+<meta name="description" content="Personal and academic website of Your Name.">
+
+<!-- =================================================================
+     FONTS
+     - Fraunces  : display serif, warm & characterful — headings
+     - Newsreader: body serif — readable, gentle, letter-like
+     - Inter     : small UI labels (nav, buttons)
+     - Caveat    : handwritten marginalia — the signature touch
+================================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =================================================================
+   DESIGN TOKENS
+   Palette: warm linen paper (not the usual cream), ink-brown text,
+            muted moss green + soft ochre accents.
+   Signature: handwritten margin notes beside each section, like
+              annotations in a notebook.
+================================================================== */
+:root{
+  --paper:     #1a1612;
+  --paper-alt: #211c17;
+  --ink:       #ece5d8;
+  --ink-soft:  #b3a999;
+  --ink-mute:  #7a7164;
+  --moss:      #92ac7c;
+  --moss-soft: #2a3324;
+  --ochre:     #e0ac5c;
+  --line:      #362e25;
+  --maxw:      680px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Newsreader', serif;
+  font-size:1.05rem;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{ background:var(--moss); color:#fff; }
+a{ color:inherit; }
+
+h1,h2,h3{ font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em; color:var(--ink); }
+
+.label{
+  font-family:'Inter', sans-serif; font-size:0.72rem;
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-mute);
+}
+
+.hand{ font-family:'Caveat', cursive; }
+
+a:focus-visible, button:focus-visible{ outline:2px solid var(--moss); outline-offset:3px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  html{ scroll-behavior:auto; }
+}
+
+/* subtle paper texture */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(236,229,216,0.018) 0px, transparent 1px, transparent 3px);
+}
+
+/* =================================================================
+   NAV — quiet, letter-like, underline-on-hover only
+================================================================== */
+nav{
+  position:sticky; top:0; z-index:20;
+  background:rgba(26,22,18,0.9);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:var(--maxw); margin:0 auto; padding:18px 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:10px;
+}
+.nav-name{ font-family:'Fraunces', serif; font-size:1.05rem; }
+.nav-links{ display:flex; gap:20px; flex-wrap:wrap; }
+.nav-links a{
+  font-family:'Inter', sans-serif; font-size:0.82rem; color:var(--ink-soft);
+  padding-bottom:2px; border-bottom:1px solid transparent;
+  transition:border-color 0.2s ease, color 0.2s ease;
+}
+.nav-links a:hover{ color:var(--ink); border-color:var(--moss); }
+
+/* =================================================================
+   LAYOUT SHELL
+================================================================== */
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+
+section{ padding:76px 0; border-bottom:1px dashed var(--line); position:relative; }
+section:last-of-type{ border-bottom:none; }
+
+/* handwritten margin note — the signature element */
+.margin-note{
+  position:absolute; right:-190px; top:78px; width:170px;
+  font-family:'Caveat', cursive; font-size:1.25rem; line-height:1.25;
+  color:var(--moss); transform:rotate(-2deg);
+}
+.margin-note::before{ content:"— "; }
+@media (max-width:1100px){ .margin-note{ display:none; } }
+
+.chapter{
+  font-family:'Inter', sans-serif; font-size:0.75rem; letter-spacing:0.12em;
+  text-transform:uppercase; color:var(--ochre); margin-bottom:10px;
+}
+.section-title{ font-size:clamp(1.5rem, 3vw, 1.9rem); margin-bottom:30px; }
+
+/* =================================================================
+   HERO — an open letter
+================================================================== */
+.hero{ padding:64px 0 70px; }
+.hero .greeting{ font-family:'Caveat', cursive; font-size:1.7rem; color:var(--moss); margin-bottom:6px; }
+.hero h1{ font-size:clamp(2.2rem, 6vw, 3.2rem); margin-bottom:10px; }
+.hero .role{
+  font-family:'Inter', sans-serif; font-size:0.95rem; color:var(--ink-soft);
+  margin-bottom:24px;
+}
+.hero .role strong{ color:var(--ink); font-weight:600; }
+.hero p.lede{ max-width:56ch; font-size:1.12rem; color:var(--ink-soft); }
+.hero p.lede em{ font-style:italic; color:var(--ink); }
+
+.hero-links{ display:flex; flex-wrap:wrap; gap:16px; margin-top:28px; }
+.hero-links a{
+  font-family:'Inter', sans-serif; font-size:0.82rem; color:var(--ink);
+  padding:9px 18px; border:1px solid var(--ink); border-radius:100px;
+  transition:background 0.2s ease, color 0.2s ease;
+}
+.hero-links a:hover{ background:var(--ink); color:var(--paper); }
+.hero-links a.primary{ background:var(--moss); border-color:var(--moss); color:#161310; }
+.hero-links a.primary:hover{ background:#a8c491; border-color:#a8c491; }
+
+/* =================================================================
+   EDUCATION — journal entries
+================================================================== */
+.entry{ padding-bottom:32px; margin-bottom:32px; border-bottom:1px solid var(--line); }
+.entry:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.entry .when{ font-family:'Inter', sans-serif; font-size:0.78rem; color:var(--ink-mute); margin-bottom:6px; }
+.entry h3{ font-size:1.2rem; margin-bottom:2px; }
+.entry .org{ font-style:italic; color:var(--moss); margin-bottom:10px; }
+.entry p{ color:var(--ink-soft); max-width:58ch; }
+
+/* =================================================================
+   EXPERIENCE
+================================================================== */
+.role-block{ display:flex; gap:20px; padding:22px 0; border-bottom:1px solid var(--line); }
+.role-block:last-child{ border-bottom:none; }
+.role-block .when{
+  font-family:'Inter', sans-serif; font-size:0.78rem; color:var(--ink-mute);
+  min-width:120px; padding-top:3px;
+}
+.role-block .now{
+  display:inline-block; margin-top:8px; font-size:0.68rem;
+  background:var(--moss-soft); color:var(--moss); padding:3px 9px; border-radius:100px;
+  font-family:'Inter', sans-serif;
+}
+.role-block h3{ font-size:1.1rem; }
+.role-block .place{ font-style:italic; color:var(--moss); margin-bottom:8px; }
+.role-block ul{ list-style:none; color:var(--ink-soft); }
+.role-block li{ position:relative; padding-left:18px; margin-bottom:5px; }
+.role-block li::before{ content:"·"; position:absolute; left:2px; color:var(--ochre); font-weight:700; }
+
+@media (max-width:600px){ .role-block{ flex-direction:column; gap:6px; } }
+
+/* =================================================================
+   RESEARCH — short reflective paragraphs
+================================================================== */
+.reflect{ margin-bottom:28px; }
+.reflect:last-child{ margin-bottom:0; }
+.reflect h3{ font-size:1.1rem; margin-bottom:6px; }
+.reflect h3 .mark{ color:var(--ochre); }
+.reflect p{ color:var(--ink-soft); max-width:58ch; }
+
+/* =================================================================
+   PUBLICATIONS — reading list
+================================================================== */
+.pub{ padding:18px 0; border-bottom:1px solid var(--line); }
+.pub:last-child{ border-bottom:none; }
+.pub h3{ font-size:1.05rem; font-style:italic; }
+.pub .authors{ font-family:'Inter', sans-serif; font-size:0.82rem; color:var(--ink-soft); margin:4px 0; }
+.pub .venue{ font-family:'Inter', sans-serif; font-size:0.78rem; color:var(--ochre); margin-bottom:8px; }
+.pub-links{ display:flex; gap:14px; flex-wrap:wrap; }
+.pub-links a{ font-family:'Inter', sans-serif; font-size:0.76rem; color:var(--moss); border-bottom:1px solid var(--moss); }
+
+/* =================================================================
+   PROJECTS
+================================================================== */
+.project{
+  padding:22px 0; border-bottom:1px solid var(--line);
+  display:grid; grid-template-columns:1fr; gap:8px;
+}
+.project:last-child{ border-bottom:none; }
+.project h3{ font-size:1.1rem; }
+.project p{ color:var(--ink-soft); max-width:60ch; }
+.project .stack{ font-family:'Inter', sans-serif; font-size:0.74rem; color:var(--ink-mute); margin-top:2px; }
+.project .links{ margin-top:6px; display:flex; gap:16px; }
+.project .links a{ font-family:'Inter', sans-serif; font-size:0.78rem; color:var(--moss); border-bottom:1px solid var(--moss); }
+
+/* =================================================================
+   SKILLS
+================================================================== */
+.skill-line{ margin-bottom:16px; }
+.skill-line .cat{ font-family:'Inter', sans-serif; font-size:0.78rem; color:var(--ink-mute); margin-bottom:6px; display:block; }
+.skill-line .items{ color:var(--ink-soft); }
+
+/* =================================================================
+   CONTACT / FOOTER
+================================================================== */
+.contact p{ color:var(--ink-soft); max-width:56ch; margin-bottom:24px; }
+.contact-links{ display:flex; flex-wrap:wrap; gap:14px; }
+.contact-links a{
+  font-family:'Inter', sans-serif; font-size:0.85rem; color:var(--ink);
+  padding:10px 18px; border:1px solid var(--ink); border-radius:100px;
+}
+.contact-links a:hover{ background:var(--ink); color:var(--paper); }
+
+footer{
+  text-align:center; padding:36px 24px 50px;
+  font-family:'Inter', sans-serif; font-size:0.75rem; color:var(--ink-mute);
+}
+
+@media (max-width:640px){ section{ padding:56px 0; } }
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Your Name</div>
+    <div class="nav-links">
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Writing</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Say hello</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================================================================
+     HERO — an open letter
+================================================================== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="greeting">Hi, I'm</div>
+    <h1>Your Name.</h1>
+    <div class="role">
+      Currently a <strong>Master's/Undergraduate student</strong> in Computer
+      Science, working on <strong>machine learning systems</strong>.
+      <!-- EDIT: your current role & focus -->
+    </div>
+    <p class="lede">
+      I like building things that help people, and understanding <em>why</em>
+      they work the way they do. This is a running notebook of what I'm
+      studying, what I'm building, and what I've written along the way —
+      <!-- EDIT: personalize this line --> pull up a chair.
+    </p>
+    <div class="hero-links">
+      <a class="primary" href="#" target="_blank" rel="noopener">Read my CV</a>
+      <a href="mailto:you@example.com">Email me</a>
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- =================================================================
+     EDUCATION
+================================================================== -->
+<section id="education">
+  <div class="wrap">
+    <div class="margin-note hand">this is where it all started</div>
+    <div class="chapter">Chapter One</div>
+    <h2 class="section-title">Where I studied</h2>
+
+    <div class="entry">
+      <div class="when">2023 — Present</div>
+      <h3>M.Tech / B.Tech, Computer Science &amp; Engineering</h3>
+      <div class="org">Your University Name, City</div>
+      <p>
+        CGPA 8.7/10. Coursework I keep coming back to: Machine Learning,
+        Distributed Systems, Algorithms.
+        <!-- EDIT: add thesis title / advisor if applicable -->
+      </p>
+    </div>
+
+    <div class="entry">
+      <div class="when">2019 — 2023</div>
+      <h3>Higher Secondary (PCM)</h3>
+      <div class="org">Your School Name, City</div>
+      <p>92% · CBSE / State Board — where the curiosity about how things work first showed up.</p>
+    </div>
+
+    <!-- Duplicate a .entry block for each additional degree -->
+  </div>
+</section>
+
+<!-- =================================================================
+     EXPERIENCE
+================================================================== -->
+<section id="experience">
+  <div class="wrap">
+    <div class="margin-note hand">what I'm doing right now</div>
+    <div class="chapter">Chapter Two</div>
+    <h2 class="section-title">What I've been working on</h2>
+
+    <div class="role-block">
+      <div class="when">
+        Jun 2025 — Present
+        <div class="now">current</div>
+      </div>
+      <div>
+        <h3>Research Intern / Assistant</h3>
+        <div class="place">Lab or Company Name, City / Remote</div>
+        <ul>
+          <li>What you're building or researching right now, in plain words.</li>
+          <li>A concrete result — a number, an outcome, a thing that shipped.</li>
+          <li>The tools you reach for most.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role-block">
+      <div class="when">May 2024 — Aug 2024</div>
+      <div>
+        <h3>Software Engineering Intern</h3>
+        <div class="place">Company Name, City</div>
+        <ul>
+          <li>What you shipped or contributed to.</li>
+          <li>What you learned that stuck with you.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Duplicate .role-block for each role -->
+  </div>
+</section>
+
+<!-- =================================================================
+     RESEARCH INTERESTS
+================================================================== -->
+<section id="research">
+  <div class="wrap">
+    <div class="margin-note hand">questions I can't stop thinking about</div>
+    <div class="chapter">Chapter Three</div>
+    <h2 class="section-title">What I'm curious about</h2>
+
+    <div class="reflect">
+      <h3><span class="mark">01.</span> Distributed &amp; ML systems</h3>
+      <p>A sentence or two on what draws you to this — a problem you keep circling back to, told in your own voice.</p>
+    </div>
+    <div class="reflect">
+      <h3><span class="mark">02.</span> Efficient deep learning</h3>
+      <p>Model compression, on-device inference — or whatever actually fits your interest.</p>
+    </div>
+    <div class="reflect">
+      <h3><span class="mark">03.</span> Applied AI for &lt;your domain&gt;</h3>
+      <p>Healthcare, climate, education — the application area where you'd like your work to land.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     PUBLICATIONS
+================================================================== -->
+<section id="publications">
+  <div class="wrap">
+    <div class="margin-note hand">things I've put into writing</div>
+    <div class="chapter">Chapter Four</div>
+    <h2 class="section-title">Writing &amp; publications</h2>
+
+    <div class="pub">
+      <h3>Title of your paper goes here</h3>
+      <div class="authors">Your Name, Co-Author, Advisor</div>
+      <div class="venue">Conference / Journal Name, 2025</div>
+      <div class="pub-links">
+        <a href="#" target="_blank">PDF</a>
+        <a href="#" target="_blank">arXiv</a>
+        <a href="#" target="_blank">Code</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <h3>Title of a workshop paper or preprint</h3>
+      <div class="authors">Your Name, Co-Author</div>
+      <div class="venue">Workshop @ Conference, 2025</div>
+      <div class="pub-links">
+        <a href="#" target="_blank">PDF</a>
+        <a href="#" target="_blank">arXiv</a>
+      </div>
+    </div>
+
+    <!-- Duplicate .pub per publication. Remove the section if you have none yet. -->
+  </div>
+</section>
+
+<!-- =================================================================
+     PROJECTS
+================================================================== -->
+<section id="projects">
+  <div class="wrap">
+    <div class="margin-note hand">things I've built with my hands</div>
+    <div class="chapter">Chapter Five</div>
+    <h2 class="section-title">Things I've built</h2>
+
+    <div class="project">
+      <h3>Project Name One</h3>
+      <p>What it does, the problem it solves, and why you built it.</p>
+      <div class="stack">Python · PyTorch · Docker</div>
+      <div class="links"><a href="#" target="_blank">GitHub</a><a href="#" target="_blank">Live demo</a></div>
+    </div>
+
+    <div class="project">
+      <h3>Project Name Two</h3>
+      <p>Description of the second project.</p>
+      <div class="stack">React · Node.js · PostgreSQL</div>
+      <div class="links"><a href="#" target="_blank">GitHub</a></div>
+    </div>
+
+    <div class="project">
+      <h3>Project Name Three</h3>
+      <p>Description of the third project.</p>
+      <div class="stack">C++ · CUDA</div>
+      <div class="links"><a href="#" target="_blank">GitHub</a></div>
+    </div>
+
+    <!-- Duplicate .project for each additional project -->
+  </div>
+</section>
+
+<!-- =================================================================
+     SKILLS
+================================================================== -->
+<section id="skills">
+  <div class="wrap">
+    <div class="chapter">Chapter Six</div>
+    <h2 class="section-title">Tools I reach for</h2>
+
+    <div class="skill-line">
+      <span class="cat">Languages</span>
+      <span class="items">Python, C++, JavaScript/TypeScript, SQL</span>
+    </div>
+    <div class="skill-line">
+      <span class="cat">Frameworks</span>
+      <span class="items">PyTorch, TensorFlow, React, Node.js, Scikit-learn</span>
+    </div>
+    <div class="skill-line">
+      <span class="cat">Tools</span>
+      <span class="items">Git, Docker, Linux, AWS</span>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     CONTACT
+================================================================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="margin-note hand">the end, for now</div>
+    <div class="chapter">Chapter Seven</div>
+    <h2 class="section-title">Say hello</h2>
+    <p>
+      If any of this resonates — a shared interest, a question, a chance to
+      work together — I'd genuinely love to hear from you.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:you@example.com">✉ you@example.com</a>
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://scholar.google.com/citations?user=XXXX" target="_blank" rel="noopener">Google Scholar</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Written and built by Your Name · © <span id="year"></span>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
